@@ -28,6 +28,15 @@ class _FamilyRegisteringState extends State<FamilyRegistering> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Family Registering'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.storage),
+            onPressed: () {
+              // Navigate to the FamilyDataScreen
+              Navigator.pushNamed(context, '/family-data');
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -129,7 +138,7 @@ class _FamilyRegisteringState extends State<FamilyRegistering> {
                 const SizedBox(height: 16.0),
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'Family Head Gross Monthly Income',
+                    labelText: 'Family Head Gross Monthly Income (Rs)',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -156,23 +165,30 @@ class _FamilyRegisteringState extends State<FamilyRegistering> {
                     _familyHeadMobileNumber = value!;
                   },
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       await _saveFamilyData();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Family data saved successfully!'),
-                          duration: Duration(seconds: 3),
-                        ),
-                      );
+
                       // Navigate to the FamilyDataScreen
                       Navigator.pushNamed(context, '/family-data');
                     }
                   },
-                  child: const Text('Register'),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30.0,
+                      vertical: 12.0,
+                    ),
+                  ),
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(fontSize: 19.0),
+                  ),
                 ),
               ],
             ),

@@ -40,12 +40,10 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
   void _startEditing(Map<String, dynamic> family) {
     setState(() {
       _isEditing = true;
-
       _editingFamilyId = family['id'];
 
       _nameController.text = family['name'];
       _relationController.text = family['relation'];
-
       _familyHeadIDController.text = family['head_id'];
       _familyHeadNameController.text = family['head_name'];
       _familyHeadAgeController.text = family['head_age'].toString();
@@ -74,10 +72,8 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
       setState(() {
         _isEditing = false;
         _editingFamilyId = null;
-
         _nameController.clear();
         _relationController.clear();
-
         _familyHeadIDController.clear();
         _familyHeadNameController.clear();
         _familyHeadAgeController.clear();
@@ -98,6 +94,12 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Family Data'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: _familyData.isEmpty
           ? const Center(child: Text('No family data available'))
@@ -108,6 +110,8 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
                 final isEditingThisFamily =
                     _isEditing && _editingFamilyId == family['id'];
                 return Card(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -187,27 +191,33 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
                           )
                         else
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Text(
-                                  'Family Household Number: ${family['name']}'),
-                              const SizedBox(height: 8.0),
-                              Text('Family Address: ${family['relation']}'),
-                              const SizedBox(height: 8.0),
-                              Text('Family Head ID: ${family['head_id']}'),
-                              const SizedBox(height: 8.0),
-                              Text('Family Head Name: ${family['head_name']}'),
-                              const SizedBox(height: 8.0),
-                              Text('Family Head Age: ${family['head_age']}'),
-                              const SizedBox(height: 8.0),
-                              Text(
-                                  'Family Head Occupation: ${family['head_occupation']}'),
-                              const SizedBox(height: 8.0),
-                              Text(
-                                  'Family Head Gross Monthly Income: ${family['head_gross_monthly_income']}'),
-                              const SizedBox(height: 8.0),
-                              Text(
-                                  'Family Head Mobile Number: ${family['head_mobile_number']}'),
+                              _buildTextRow(
+                                  'Family Household Number:', family['name']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow(
+                                  'Family Address:', family['relation']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow(
+                                  'Family Head ID:', family['head_id']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow(
+                                  'Family Head Name:', family['head_name']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow('Family Head Age:',
+                                  family['head_age'].toString()),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow('Family Head Occupation:',
+                                  family['head_occupation']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow(
+                                  'Family Head Gross Monthly Income:',
+                                  family['head_gross_monthly_income']
+                                      .toString()),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow('Family Head Mobile Number:',
+                                  family['head_mobile_number']),
                               const SizedBox(height: 16.0),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -235,6 +245,27 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
                 );
               },
             ),
+    );
+  }
+
+  Widget _buildTextRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(width: 8.0),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.right,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
