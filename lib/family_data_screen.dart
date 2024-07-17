@@ -24,6 +24,12 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
   final _familyHeadGrossMonthlyIncomeController = TextEditingController();
   final _familyHeadMobileNumberController = TextEditingController();
 
+  final _familyHeadGenderController = TextEditingController();
+  final _familyHeadEducationLevelController = TextEditingController();
+  final _familyHeadOccupationTypeController = TextEditingController();
+  final _isFamilyHeadRecievedAidController = TextEditingController();
+  final _familyHeadRecievedAIdDescriptionController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +57,14 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
       _familyHeadGrossMonthlyIncomeController.text =
           family['head_gross_monthly_income'].toString();
       _familyHeadMobileNumberController.text = family['head_mobile_number'];
+
+      _familyHeadGenderController.text = family['head_gender'];
+      _familyHeadEducationLevelController.text = family['head_education_level'];
+      _familyHeadOccupationTypeController.text = family['head_occupation_type'];
+      _isFamilyHeadRecievedAidController.text =
+          family['is_family_head_recieved_aid'].toString();
+      _familyHeadRecievedAIdDescriptionController.text =
+          family['head_recieved_aid_description'];
     });
   }
 
@@ -66,6 +80,12 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
         'head_gross_monthly_income':
             _familyHeadGrossMonthlyIncomeController.text,
         'head_mobile_number': _familyHeadMobileNumberController.text,
+        'head_gender': _familyHeadGenderController.text,
+        'head_education_level': _familyHeadEducationLevelController.text,
+        'head_occupation_type': _familyHeadOccupationTypeController.text,
+        'is_family_head_recieved_aid': _isFamilyHeadRecievedAidController.text,
+        'head_recieved_aid_description':
+            _familyHeadRecievedAIdDescriptionController.text,
       };
       await _databaseHelper.updateFamily(_editingFamilyId!, updatedData);
       _loadFamilyData();
@@ -80,6 +100,12 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
         _familyHeadOccupationController.clear();
         _familyHeadGrossMonthlyIncomeController.clear();
         _familyHeadMobileNumberController.clear();
+
+        _familyHeadGenderController.clear();
+        _familyHeadEducationLevelController.clear();
+        _familyHeadOccupationTypeController.clear();
+        _isFamilyHeadRecievedAidController.clear();
+        _familyHeadRecievedAIdDescriptionController.clear();
       });
     }
   }
@@ -97,7 +123,7 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/family-registering');
           },
         ),
       ),
@@ -150,9 +176,34 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
                               ),
                               const SizedBox(height: 16.0),
                               TextField(
+                                controller: _familyHeadGenderController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Family Head Gender',
+                                ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              TextField(
                                 controller: _familyHeadAgeController,
                                 decoration: const InputDecoration(
                                   labelText: 'Family Head Age',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16.0,
+                              ),
+                              TextField(
+                                controller: _familyHeadEducationLevelController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Family Head Education Level',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 16.0,
+                              ),
+                              TextField(
+                                controller: _familyHeadOccupationTypeController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Family Head Occupation Type',
                                 ),
                               ),
                               const SizedBox(height: 16.0),
@@ -175,6 +226,22 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
                                 controller: _familyHeadMobileNumberController,
                                 decoration: const InputDecoration(
                                   labelText: 'Family Head Mobile Number',
+                                ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              TextField(
+                                controller: _isFamilyHeadRecievedAidController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Is Family Head Recieved Any Aid?',
+                                ),
+                              ),
+                              const SizedBox(height: 16.0),
+                              TextField(
+                                controller:
+                                    _familyHeadRecievedAIdDescriptionController,
+                                decoration: const InputDecoration(
+                                  labelText:
+                                      'Family Head Recieved Aid Description',
                                 ),
                               ),
                               const SizedBox(height: 16.0),
@@ -218,6 +285,24 @@ class _FamilyDataScreenState extends State<FamilyDataScreen> {
                               const SizedBox(height: 16.0),
                               _buildTextRow('Family Head Mobile Number:',
                                   family['head_mobile_number']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow(
+                                  'Family Head Gender:', family['head_gender']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow('Family Head Education Level:',
+                                  family['head_education_level']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow('Family Head Occupation Type:',
+                                  family['head_occupation_type']),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow(
+                                  'Is Family Head Recieved Any Aid?:',
+                                  family['is_family_head_recieved_aid']
+                                      .toString()),
+                              const SizedBox(height: 16.0),
+                              _buildTextRow(
+                                  'Family Head Recieved Aid Description:',
+                                  family['head_recieved_aid_description']),
                               const SizedBox(height: 16.0),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,

@@ -18,50 +18,51 @@ class DatabaseHelper {
     String path = join(await getDatabasesPath(), 'family_database.db');
     return await openDatabase(
       path,
-      version: 2, //increment the db version
+      version: 2, // Increment the db version
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE family_data(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             relation TEXT,
-
             head_id TEXT,
             head_name TEXT,
             head_age INTEGER,
             head_occupation TEXT,
             head_gross_monthly_income REAL,
-            head_mobile_number TEXT
+            head_mobile_number TEXT,
+
+            head_gender TEXT,
+            head_education_level TEXT,
+            head_occupation_type TEXT,
+            is_family_head_recieved_aid INTEGER,
+            head_recieved_aid_description TEXT
           )
         ''');
       },
-
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
-          await db.execute('''
-            ALTER TABLE family_data
-            ADD COLUMN head_id TEXT;
-          ''');
-          await db.execute('''
-            ALTER TABLE family_data
-            ADD COLUMN head_name TEXT;
-          ''');
-          await db.execute('''
-            ALTER TABLE family_data
-            ADD COLUMN head_age INTEGER;
-          ''');
-          await db.execute('''
-            ALTER TABLE family_data
-            ADD COLUMN head_occupation TEXT;
-          ''');
-          await db.execute('''
-            ALTER TABLE family_data
-            ADD COLUMN head_gross_monthly_income REAL;
-          ''');
-          await db.execute('''
-            ALTER TABLE family_data
-            ADD COLUMN head_mobile_number TEXT;
-          ''');
+          /*await db.execute('ALTER TABLE family_data ADD COLUMN head_id TEXT');
+          await db.execute('ALTER TABLE family_data ADD COLUMN head_name TEXT');
+          await db
+              .execute('ALTER TABLE family_data ADD COLUMN head_age INTEGER');
+          await db.execute(
+              'ALTER TABLE family_data ADD COLUMN head_occupation TEXT');
+          await db.execute(
+              'ALTER TABLE family_data ADD COLUMN head_gross_monthly_income REAL');
+          await db.execute(
+              'ALTER TABLE family_data ADD COLUMN head_mobile_number TEXT');*/
+
+          await db
+              .execute('ALTER TABLE family_data ADD COLUMN head_gender TEXT');
+          await db.execute(
+              'ALTER TABLE family_data ADD COLUMN head_education_level TEXT');
+          await db.execute(
+              'ALTER TABLE family_data ADD COLUMN head_occupation_type TEXT');
+          await db.execute(
+              'ALTER TABLE family_data ADD COLUMN is_family_head_recieved_aid INTEGER');
+          await db.execute(
+              'ALTER TABLE family_data ADD COLUMN head_recieved_aid_description TEXT');
         }
       },
     );
